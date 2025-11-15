@@ -36,7 +36,14 @@ const Contact = () => {
             <p className="text-gray-700 text-lg">+91 79084 59903</p>
             <p className="text-gray-700 text-lg">+91 70036 76226</p>
           </div>
-
+          <div className="mb-8">
+            <h3 className="text-xl font-bold mb-1">Address</h3>
+            <p className="text-gray-700 text-lg">
+              Laldighi, Berhampur, 742101
+              <br />
+               Murshidabad, West Bengal
+            </p>
+          </div>
           {/* Coaching Areas */}
           <div className="mb-6">
             <h3 className="text-xl font-bold mb-4">Coaching Areas</h3>
