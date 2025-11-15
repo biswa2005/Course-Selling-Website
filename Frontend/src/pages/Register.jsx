@@ -37,7 +37,7 @@ const Register = () => {
         `${formData.firstName} ${formData.middleName} ${formData.lastName}`.trim();
 
       const response = await authAPI.registerUser({
-        fullName,
+        name : fullName,
         email: formData.email,
         password: formData.password,
       });
