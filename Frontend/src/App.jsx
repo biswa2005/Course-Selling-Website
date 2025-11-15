@@ -10,7 +10,6 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Homepage from "./pages/Homepage";
-import ProtectedRoute from "./components/ProtectedRoute";
 import useAuthStore from "./store/authStore";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -36,20 +35,17 @@ function App() {
         <Route path="/success-stories" element={<SuccessStories />} />
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/" element={<Homepage />} />
 
         <Route
           path="/register"
           element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}
         />
+
         <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Homepage />
-            </ProtectedRoute>
-          }
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
         />
-        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
       <Footer />
     </Router>

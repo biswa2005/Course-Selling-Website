@@ -46,16 +46,6 @@ const Homepage = () => {
       iconColor: "text-black",
     },
   ];
-  const navigate = useNavigate();
-  const { user, isAuthenticated, logout, checkAuth } = useAuthStore();
-
-  useEffect(() => {
-    // Check authentication on mount
-    const isAuth = checkAuth();
-    if (!isAuth) {
-      navigate("/login");
-    }
-  }, []);
 
   return (
     <div>
