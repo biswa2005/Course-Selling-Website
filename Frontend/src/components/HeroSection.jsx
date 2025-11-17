@@ -1,6 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/pragati-foundation-logo.png";
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
+  const handleStartNow = () => {
+    navigate("/register");
+  };
+
+  const handleMeetCoaches = () => {
+    navigate("/mentors"); 
+  };
+
   return (
     <section className="w-full bg-linear-to-r from-black via-gray-800 to-gray-700 text-white py-20 px-6 md:px-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -35,6 +46,7 @@ const HeroSection = () => {
       {/* BUTTONS */}
       <div className="mt-8 flex items-center gap-4 ">
         <button
+          onClick={handleStartNow}
           className="flex items-center gap-2 bg-white text-black font-bold px-6 py-3 rounded-md text-lg shadow 
               cursor-pointer hover:bg-gray-200 transition-all duration-300 
                transform hover:-translate-y-1 hover:shadow-lg"
@@ -43,6 +55,7 @@ const HeroSection = () => {
         </button>
 
         <button
+          onClick={handleMeetCoaches}
           className="flex items-center gap-3 border border-white text-white font-bold px-6 py-3 rounded-md text-lg cursor-pointer hover:bg-white hover:text-black transition-all duration-300 
                transform hover:-translate-y-1 hover:shadow-lg"
         >
