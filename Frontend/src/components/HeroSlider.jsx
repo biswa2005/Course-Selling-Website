@@ -94,7 +94,7 @@ export function HeroSlider() {
             <div className="relative h-full flex items-center justify-center z-20">
               <div className="text-center px-4 max-w-4xl">
                 <h2
-                  className="text-5xl md:text-6xl lg:text-6xl font-black text-white mb-4 tracking-tight"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white mb-4 tracking-tight leading-tight"
                   style={{
                     textTransform: "uppercase",
                     letterSpacing: "0.02em",

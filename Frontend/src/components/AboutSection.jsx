@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router-dom";
+
 const AboutSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="w-full min-h-screen bg-linear-to-b from-[#eef0ff] to-[#f6f7ff] px-6 py-20">
       <div className="max-w-7xl mx-auto text-center">
@@ -32,14 +35,14 @@ const AboutSection = () => {
         </p>
         <div className="mt-12 flex flex-col sm:flex-row justify-center gap-6">
           <button
-            onClick={() => (window.location.href = "/register")}
+            onClick={() => navigate("/register")}
             className="px-8 py-4 text-lg font-semibold text-white rounded-xl bg-blue-500 hover:bg-blue-600 transition shadow-lg cursor-pointer"
           >
             Start Your Success Journey →
           </button>
 
           <button
-            onClick={() => (window.location.href = "/contact")}
+            onClick={() => navigate("/contact")}
             className="px-8 py-4 text-lg font-semibold text-white rounded-xl bg-linear-to-r from-purple-500 to-orange-500 hover:opacity-90 transition shadow-lg cursor-pointer"
           >
             Book Free Consultation →
