@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { User, Mail, Lock, UserCircle } from "lucide-react";
+import { User, Mail, Lock, UserCircle, Phone } from "lucide-react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { authAPI } from "../services/api";
@@ -15,6 +15,7 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
+    phone: "",
   });
   const [error, setError] = useState("");
 
@@ -40,6 +41,7 @@ const Register = () => {
         name : fullName,
         email: formData.email,
         password: formData.password,
+        phone: formData.phone,
       });
 
       if (response && response.user) {
@@ -112,6 +114,16 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               icon={Mail}
+              required
+            />
+
+            <Input
+              type="phone"
+              name="phone"
+              placeholder="Phone Number"
+              value={formData.phone}
+              onChange={handleChange}
+              icon={Phone}
               required
             />
 

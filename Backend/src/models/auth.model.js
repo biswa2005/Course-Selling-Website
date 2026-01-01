@@ -20,6 +20,11 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin"],
       default: "user",
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     // For OTP
     resetOTP: {
       type: Number,

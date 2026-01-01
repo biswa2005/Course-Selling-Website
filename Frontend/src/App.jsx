@@ -16,12 +16,13 @@ import Footer from "./components/Footer";
 import SuccessStories from "./pages/SuccessStories";
 import Mentors from "./pages/Mentors";
 import Contact from "./pages/Contact";
+import Courses from "./pages/Courses";
+import About from "./pages/About";
 
 function App() {
   const { checkAuth, isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    // Check authentication on app load
     checkAuth();
   }, [checkAuth]);
 
@@ -32,11 +33,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/success-stories" element={<SuccessStories />} />
+        <Route path="/testimonials" element={<SuccessStories />} />
         <Route path="/mentors" element={<Mentors />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/" element={<Homepage />} />
-
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/about" element={<About />} />
         <Route
           path="/register"
           element={isAuthenticated ? <Navigate to="/" replace /> : <Register />}

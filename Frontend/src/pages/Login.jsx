@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Phone } from "lucide-react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { authAPI } from "../services/api";
@@ -9,43 +9,57 @@ import useAuthStore from "../store/authStore";
 const Login = () => {
   const navigate = useNavigate();
   const { login, setLoading, isLoading, checkAuth } = useAuthStore();
+
   const [formData, setFormData] = useState({
-    email: "",
+    identifier: "", // email OR phone
     password: "",
   });
+
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const isAuth = checkAuth();
-    if (isAuth) {
-      navigate("/");
-    }
+    if (checkAuth()) navigate("/");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
     setError("");
   };
+
+  const isEmail = (value) => /\S+@\S+\.\S+/.test(value);
+  const isPhone = (value) => /^\d{10}$/.test(value);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    const { identifier, password } = formData;
+
+    if (!identifier || !password) {
+      setError("Please enter email/phone and password");
+      return;
+    }
+
+    if (!isEmail(identifier) && !isPhone(identifier)) {
+      setError("Enter a valid email or 10-digit phone number");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const response = await authAPI.loginUser({
-        email: formData.email,
-        password: formData.password,
-      });
+      const payload = {
+        password,
+        ...(isEmail(identifier)
+          ? { email: identifier }
+          : { phone: identifier }),
+      };
 
-      const userData = response && response.user;
+      const response = await authAPI.loginUser(payload);
 
-      if (userData) {
-        login(userData);
+      if (response?.user) {
+        login(response.user);
         navigate("/");
       } else {
         setError("Login failed. Please check your credentials.");
@@ -55,7 +69,6 @@ const Login = () => {
         err?.response?.data?.message ||
           "Login failed. Please check your credentials."
       );
-      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
@@ -80,13 +93,11 @@ const Login = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <Input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              value={formData.email}
+              name="identifier"
+              placeholder="Email or Phone Number"
+              value={formData.identifier}
               onChange={handleChange}
-              icon={Mail}
-              required
+              icon={isPhone(formData.identifier) ? Phone : Mail}
             />
 
             <Input
@@ -96,50 +107,29 @@ const Login = () => {
               value={formData.password}
               onChange={handleChange}
               icon={Lock}
-              required
             />
 
-            <Button
-              type="submit"
-              isLoading={isLoading}
-              className="w-full"
-            >
+            <Button type="submit" isLoading={isLoading} className="w-full">
               Login
             </Button>
           </form>
 
           <div className="text-center text-sm text-gray-600 space-y-3">
-            <div className="relative inline-block group">
+            <Link
+              to="/forgot-password"
+              className="font-semibold text-slate-600 hover:text-black"
+            >
+              Forgot password?
+            </Link>
+
+            <div>
+              Don’t have an account?{" "}
               <Link
-                to="/forgot-password"
-                className="text-slate-600 hover:text-slate-700 font-semibold"
+                to="/register"
+                className="font-semibold text-slate-600 hover:text-black"
               >
-                Forgot password?
+                Register here
               </Link>
-
-              {/* Animated underline */}
-              <span
-                className="
-      absolute left-0 -bottom-0.5 
-      h-0.5 w-0 
-      bg-black 
-      transition-all duration-300 
-      group-hover:w-full
-    "
-              ></span>
-            </div>
-
-            <div className="text-center text-sm text-gray-600">
-              Don't have an account?{" "}
-              <span className="group inline-block">
-                <Link
-                  to="/register"
-                  className="relative inline-block text-slate-600 group-hover:text-black font-semibold text-md transition-colors"
-                >
-                  Register here
-                  <span className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-black transition-all duration-300 group-hover:w-full"></span>
-                </Link>
-              </span>
             </div>
           </div>
         </div>

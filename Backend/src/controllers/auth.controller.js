@@ -10,8 +10,8 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const signupController = async (req, res) => {
   try {
-    const { name, email, password, role, secret_key } = req.body;
-    if (!name || !email || !password) {
+    const { name, email, password, role, secret_key, phone } = req.body;
+    if (!name || !email || !password || !phone) {
       return res.status(400).json({ message: "All fields are required" });
     }
     if (role === "admin") {
@@ -35,6 +35,7 @@ export const signupController = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      phone,
     });
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -54,6 +55,7 @@ export const signupController = async (req, res) => {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
+        phone: newUser.phone,
       },
     });
   } catch (error) {
@@ -64,42 +66,67 @@ export const signupController = async (req, res) => {
 
 export const loginController = async (req, res) => {
   try {
-    const { email, password, role, secret_key } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({ message: "All fields are required" });
+    const { email, phone, password, role, secret_key } = req.body;
+
+    // Require password and at least one identifier
+    if ((!email && !phone) || !password) {
+      return res
+        .status(400)
+        .json({ message: "Email or phone and password are required" });
     }
+
+    // Admin secret validation
     if (role === "admin") {
-      if (secret_key === undefined) {
+      if (!secret_key) {
         return res
           .status(403)
           .json({ message: "Admin secret key is required" });
       }
+
       if (secret_key !== process.env.ADMIN_SECRET) {
         return res.status(403).json({ message: "Invalid admin secret key" });
       }
     }
-    const user = await User.findOne({ email });
+
+    // Find user by email OR phone
+    const user = await User.findOne({
+      $or: [email ? { email } : null, phone ? { phone } : null].filter(Boolean),
+    });
+
     if (!user) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res
+        .status(400)
+        .json({ message: "Invalid email/phone or password" });
     }
+
+    // Password check
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid email or password" });
+      return res
+        .status(400)
+        .json({ message: "Invalid email/phone or password" });
     }
+
+    // JWT
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+
+    // Cookie
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 7 * 24 * 60 * 60 * 1000,
       secure: process.env.NODE_ENV === "Production",
+      sameSite: "strict",
     });
+
     return res.status(200).json({
       message: "Login successful",
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
       },
     });
@@ -108,6 +135,7 @@ export const loginController = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 export const logoutController = (req, res) => {
   try {
@@ -122,7 +150,7 @@ export const logoutController = (req, res) => {
 export const forgotPasswordController = async (req, res) => {
   try {
     const { email } = req.body;
-    if(!email) {
+    if (!email) {
       return res.status(400).json({ message: "Email is required" });
     }
 

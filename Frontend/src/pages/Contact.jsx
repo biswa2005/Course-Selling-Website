@@ -2,8 +2,8 @@ const Contact = () => {
   return (
     <>
       {/* TOP HERO SECTION */}
-      <section className="w-full min-h-[60vh] bg-black flex flex-col justify-center px-6 md:px-20 py-16">
-        <h1 className="text-white text-5xl md:text-7xl font-extrabold mb-6">
+      <section className="bg-indigo-950 w-full min-h-[60vh] flex flex-col justify-center px-6 md:px-20 py-16">
+        <h1 className="text-5xl md:text-7xl font-extrabold mb-6 bg-linear-to-t from-gray-400 to-white bg-clip-text text-transparent tracking-tighter">
           GET IN TOUCH
         </h1>
 
@@ -24,24 +24,23 @@ const Contact = () => {
 
           {/* Email */}
           <div className="mb-8">
-            <h3 className="text-xl font-bold mb-1">Email</h3>
-            <p className="text-gray-700 text-lg">
-              soumadeepmajumder806@gmail.com
-            </p>
+            <h3 className="text-xl font-bold mb-1">Email Us</h3>
+            <p className="text-gray-700 text-lg">support@pragatilive.com</p>
           </div>
 
           {/* Phone */}
           <div className="mb-8">
             <h3 className="text-xl font-bold mb-1">Phone</h3>
-            <p className="text-gray-700 text-lg">+91 79084 59903</p>
-            <p className="text-gray-700 text-lg">+91 70036 76226</p>
+            <p className="text-gray-700 text-lg">+91 7003676226</p>
+            <p className="text-gray-700 text-lg">+91 7718157111</p>
+            <p className="text-gray-700 text-lg">+91 8927651695</p>
           </div>
           <div className="mb-8">
             <h3 className="text-xl font-bold mb-1">Address</h3>
             <p className="text-gray-700 text-lg">
-              Laldighi, Berhampur, 742101
+              Dhopghati, Berhampur, Murshidabad
               <br />
-               Murshidabad, West Bengal
+              Pin-742101, West Bengal
             </p>
           </div>
           {/* Coaching Areas */}
@@ -65,13 +64,13 @@ const Contact = () => {
         <div className="w-full md:w-1/2 bg-gray-100 p-10 md:p-12 rounded-md shadow-sm">
           <h2 className="text-4xl font-extrabold mb-6">READY TO START?</h2>
 
-          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+          <p className="text-gray-700 text-xl leading-relaxed mb-4">
             Take the first step towards academic excellence. Our experienced
             mentors are ready to guide you through your competitive exam
             preparation journey.
           </p>
 
-          <p className="text-gray-700 text-lg leading-relaxed">
+          <p className="text-gray-700 text-xl leading-relaxed">
             Contact us at the Email or Phone number given, to learn more about
             our programs and how we can help you achieve your academic goals.
           </p>
