@@ -102,7 +102,7 @@ export function HeroSlider() {
                 >
                   {slide.title}
                 </h2>
-                <p className="text-lg md:text-xl lg:text-xl text-white/90">
+                <p className="text-sm md:text-xl lg:text-xl text-white/90">
                   {slide.subtitle}
                 </p>
               </div>
